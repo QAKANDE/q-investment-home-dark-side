@@ -4,8 +4,6 @@ const authenticate = async (user) => {
   try {
     // generate tokens
     const newAccessToken = await generateJWT({ _id: user._id });
-    //await user.save() ;
-    console.log("TOKEN ", newAccessToken);
     return newAccessToken;
   } catch (error) {
     console.log(error);

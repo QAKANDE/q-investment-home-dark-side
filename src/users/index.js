@@ -16,7 +16,7 @@ router.post("/register", async (req, res, next) => {
   try {
     const newUser = new profileModel(req.body);
     const { _id } = await newUser.save();
-
+    console.log(newUser._id);
     res.status(201).send(_id);
   } catch (error) {
     next(error);
@@ -28,10 +28,10 @@ router.post("/login", async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await profileModel.findByCredentials(email, password);
-
+    console.log(user);
+    const tokens = await authenticate(user);
+    
     if (user) {
-      const tokens = await authenticate(user);
-      res.cookie("accessToken", tokens);
       res.setHeader("Content-Type", "application/json");
       res.send(tokens);
     }
@@ -84,6 +84,13 @@ router.delete("/:id", authorize, async (req, res, next) => {
     res.send(deleted);
   } catch (error) {
     console.log(error);
+  }
+});
+
+router.post("/accountbalance", async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
   }
 });
 
