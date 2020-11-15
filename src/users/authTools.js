@@ -1,9 +1,12 @@
 const jwt = require("jsonwebtoken");
-
-const authenticate = async (user) => {
+const profileModel  = require("../users/schema")
+const generateToken = async (user) => {
   try {
     // generate tokens
     const newAccessToken = await generateJWT({ _id: user._id });
+     const newUser = await profileModel.findById(user._id);
+    newUser.newAccessToken = newAccessToken;
+    await newUser.save({ validateBeforeSave: false });
     return newAccessToken;
   } catch (error) {
     console.log(error);
@@ -35,4 +38,4 @@ const verifyJWT = (token) =>
     });
   });
 
-module.exports = { authenticate, verifyJWT };
+module.exports = { generateToken, verifyJWT };

@@ -1,13 +1,47 @@
 const express = require("express");
 const router = express.Router();
 const profileModel = require("../users/schema");
-const { authenticate, refreshToken } = require("./authTools");
+const { authenticate, refreshToken, generateToken } = require("./authTools");
 const { authorize } = require("../../services/middlewares/authorize");
+const { application, json } = require("express");
 
 router.get("/", async (req, res, next) => {
   try {
     const users = await profileModel.find();
     res.status(201).send(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/signUp/:userId",  async (req, res, next) => {
+  try {
+    const user = await profileModel.findById(req.params.userId);
+    if (user) {
+      res.send(user);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:email", authorize , async (req, res, next) => {
+try {
+  const user = await profileModel.find()
+  const filteredUser = user.filter((user => user.email === req.params.email))
+res.send(filteredUser)
+  
+} catch (error) {
+  console.log(error)
+}
+})
+
+router.get("/:userId", authorize,  async (req, res, next) => {
+  try {
+    const user = await profileModel.findById(req.params.userId);
+    if (user) {
+      res.send(user);
+    }
   } catch (error) {
     next(error);
   }
@@ -28,18 +62,18 @@ router.post("/login", async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await profileModel.findByCredentials(email, password);
-    console.log(user);
-    const tokens = await authenticate(user);
-    
+  
+    const tokens = await generateToken(user);
+
     if (user) {
-      res.setHeader("Content-Type", "application/json");
+     
       res.send(tokens);
     }
   } catch (error) {
     next(error);
   }
 });
-router.get("/", authorize, async (req, res, next) => {
+router.get("/mee", authorize, async (req, res, next) => {
   try {
     let user = await profileModel.find();
     res.send(user);
@@ -49,7 +83,7 @@ router.get("/", authorize, async (req, res, next) => {
 });
 router.get("/me", authorize, async (req, res, next) => {
   try {
-    res.send(req.user);
+   console.log("here")
   } catch (error) {
     console.log(error);
   }
@@ -84,13 +118,6 @@ router.delete("/:id", authorize, async (req, res, next) => {
     res.send(deleted);
   } catch (error) {
     console.log(error);
-  }
-});
-
-router.post("/accountbalance", async (req, res, next) => {
-  try {
-  } catch (error) {
-    next(error);
   }
 });
 
