@@ -4,6 +4,7 @@ const profileModel = require("../users/schema");
 const { authenticate, refreshToken, generateToken } = require("./authTools");
 const { authorize } = require("../../services/middlewares/authorize");
 const { application, json } = require("express");
+const sendmail = require('sendmail')();
 
 router.get("/", async (req, res, next) => {
   try {
@@ -29,14 +30,13 @@ router.get("/:email", authorize , async (req, res, next) => {
 try {
   const user = await profileModel.find()
   const filteredUser = user.filter((user => user.email === req.params.email))
-res.send(filteredUser)
-  
+  res.send(filteredUser)  
 } catch (error) {
   console.log(error)
 }
 })
 
-router.get("/:userId", authorize,  async (req, res, next) => {
+router.get("/:userId",  async (req, res, next) => {
   try {
     const user = await profileModel.findById(req.params.userId);
     if (user) {
@@ -56,6 +56,19 @@ router.post("/register", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post("/sendemail", async (req, res, next) => {
+  sendmail({
+    from: "Quadri",
+    to: req.body.email,
+    subject: 'test sendmail',
+    text: 'Mail of test sendmail ',
+  }, function(err, reply) {
+    console.log(err && err.stack);
+    console.dir(reply);
+ });
+  res.send("sent")
+})
 
 router.post("/login", async (req, res, next) => {
   try {

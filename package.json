@@ -18,8 +18,9 @@
     "express": "^4.17.1",
     "express-list-endpoints": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^4.7.2",
+    "mongoose": "^5.10.15",
     "nodemon": "^2.0.4",
+    "sendmail": "^1.6.1",
     "validator": "^13.1.17"
   }
 }

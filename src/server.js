@@ -15,8 +15,7 @@ server.use(express.json());
 server.use("/users", users);
 server.use("/account", account);
 console.log(listEndpoints(server));
-mongoose
-  .connect("mongodb://localhost:27017/Q-investment-homes", {
+mongoose.connect("mongodb://localhost:27017/Q-investment-homes", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

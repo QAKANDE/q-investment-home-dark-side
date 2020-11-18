@@ -45,6 +45,23 @@ router.post("/:userId", async (req, res, next) => {
   }
 })
 
+router.post("/accountBalanceReduce/:userId", async (req, res, next) => {
+  try {   
+    const user = await accountModel.findById(req.params.userId)
+    if (user) { 
+      if (user.balance === 0) {
+        res.send("Account Balance is 0")
+      }
+      else {
+        const userBalance = await accountModel.findByIdAndUpdate(req.params.userId , { balance : user.balance - req.body.balance}) 
+        res.send("Balance Updated")
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 
 
 module.exports = router;
