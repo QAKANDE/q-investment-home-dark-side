@@ -9,7 +9,7 @@ const listEndpoints = require("express-list-endpoints");
 
 const server = express();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3003;
 server.use(cors());
 server.use(express.json());
 server.use("/users", users);
