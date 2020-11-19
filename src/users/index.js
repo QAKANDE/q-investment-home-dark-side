@@ -79,7 +79,8 @@ router.post("/login", async (req, res, next) => {
     const tokens = await generateToken(user);
 
     if (user) {
-      res.end(JSON.stringify(tokens));
+    res.setHeader("Content-Type" , "application/json")
+    res.send(tokens)
   
     }
   } catch (error) {

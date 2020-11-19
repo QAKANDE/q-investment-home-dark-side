@@ -7,7 +7,7 @@ const generateToken = async (user) => {
      const newUser = await profileModel.findById(user._id);
     newUser.newAccessToken = newAccessToken;
     await newUser.save({ validateBeforeSave: false });
-    return newAccessToken;
+    return {newAccessToken};
   } catch (error) {
     console.log(error);
     throw new Error(error);

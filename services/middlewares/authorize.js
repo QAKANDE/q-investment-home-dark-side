@@ -16,24 +16,9 @@ const authorize = async (req, res, next) => {
         req.user = user;
         next();
       } else {
-        res.status(404).send('Check your username/passord');
+        res.status(404).send('Check your username/password');
       }
     }
-   
-  
-    // // const token = req.cookies.accessToken
-    // const decoded = await verifyJWT(token);
-    // console.log(decoded);
-    // const user = await profileModel.findOne({
-    //   _id: decoded._id,
-    // });
-    // console.log(user);
-    // if (!user) {
-    //   throw new Error();
-    // }
-    // req.token = token;
-    // req.user = user;
-    // next();
   } catch (e) {
     console.log(e);
     const err = new Error("Please authenticate");
