@@ -21,7 +21,7 @@ const authorize = async (req, res, next) => {
     }
   } catch (e) {
     console.log(e);
-    const err = new Error("Please authenticate");
+    const err = new Error("Please authenticatee");
     err.httpStatusCode = 401;
     next(err);
   }
