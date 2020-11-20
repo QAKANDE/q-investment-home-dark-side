@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const users = require("./users/index");
 const account = require("./account/index");
 const cors = require("cors");
-const errorHandler = require ("../services/middlewares/errorHandler")
+
 // var token = require("crypto").randomBytes(48).toString("hex");
 // console.log(token);
 const listEndpoints = require("express-list-endpoints");
@@ -16,9 +16,7 @@ server.use(express.json());
 server.use("/users", users);
 server.use("/account", account);
 console.log(listEndpoints(server));
-server.use((err, req, res, next) => {
-  errorHandler(err, res);
-});
+
 mongoose.connect("mongodb+srv://quadri:quadriakande@cluster0.hnvno.mongodb.net/investment-homes?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
