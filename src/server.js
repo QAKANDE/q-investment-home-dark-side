@@ -15,7 +15,7 @@ server.use(cors());
 server.use(express.json());
 server.use("/users", users);
 server.use("/account", account);
-console.log(listEndpoints(server));
+console.log("endpoints",listEndpoints(server));
 
 mongoose.connect("mongodb+srv://quadri:quadriakande@cluster0.hnvno.mongodb.net/investment-homes?retryWrites=true&w=majority", {
     useNewUrlParser: true,
